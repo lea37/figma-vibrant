@@ -1,0 +1,10 @@
+{
+  "name": "Vibrant",
+  "id": "1029761464761569929",
+  "api": "1.0.0",
+  "main": "build/code.js",
+  "ui": "build/ui.html",
+  "editorType": [
+    "figma"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "vibrant",
+  "version": "1.0.0",
+  "description": "Generate a vibrant palette from an image.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode=development --watch",
+    "build": "webpack --mode=production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.4.0",
+    "html-webpack-inline-source-plugin": "^1.0.0-beta.2",
+    "html-webpack-plugin": "^5.3.2",
+    "style-loader": "^3.3.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.3",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0",
+    "worker-loader": "^3.0.8"
+  },
+  "dependencies": {
+    "colorthief": "^2.3.2",
+    "node-vibrant": "^3.1.6"
+  }
+}
