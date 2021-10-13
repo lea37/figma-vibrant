@@ -3,16 +3,16 @@ import { getFirstImagePaintFromNode, UIColorData } from "./utils";
 export async function generateColorGuideFrame(node, data: UIColorData): Promise<SceneNode> {
   const { palette, names } = data
 
-  const swatchSize = 50
+  const swatchSize = 55
   const labelHeight = 12
-  const labelBottomMargin = 8 + labelHeight
+  const labelBottomMargin = 4 + labelHeight
   const swatchGap = 8
-  const maxWidth = 372
-  const maxImagePreviewHeight = 372
-  const leftMargin = 16
+  const maxWidth = 388
+  const maxImagePreviewHeight = 388
+  const leftMargin = 8
   const black = { r: 0, g: 0, b: 0 }
   const white = { r: 1, g: 1, b: 1 }
-  const paletteCornerRadius = 6
+  const paletteCornerRadius = 0
   
   const imagePreviewInset = 16
   const imageBoundsHeight = node.height > maxImagePreviewHeight
@@ -32,10 +32,8 @@ export async function generateColorGuideFrame(node, data: UIColorData): Promise<
 
   const frame = figma.createFrame()
   frame.resize(maxWidth, totalHeight)
-  // frame.x = node.x + node.width + 100
-  // frame.y = node.y
-  frame.x = 400
-  frame.y = 500
+  frame.x = node.x + node.width + 100
+  frame.y = node.y
   frame.backgrounds = []
   frame.effects = []
   frame.name = "Palette"
@@ -49,18 +47,9 @@ export async function generateColorGuideFrame(node, data: UIColorData): Promise<
   background.fills = [{ color: white, type: 'SOLID' }]
   background.effects = [{ type: 'DROP_SHADOW', visible: true, blendMode: "NORMAL", radius: 12, offset: { x: 0, y: 2 }, color: { ...black, a: 0.16 }}]
 
-  // const imageBackground = figma.createRectangle()
-  // imageBackground.y = 0
-  // imageBackground.topLeftRadius = paletteCornerRadius
-  // imageBackground.topRightRadius = paletteCornerRadius
-  // imageBackground.resize(maxWidth, imageBoundsHeight)
-  // imageBackground.fills = [{ type: 'SOLID', color: dominantColor, opacity: 0.08 }]
-  // imageBackground.effects = [{ type: 'INNER_SHADOW', visible: true, blendMode: "NORMAL", radius: 0, offset: { x: 0, y: -1 }, color: { ...black, a: 0.08 }}]
-
   const imageBounds = figma.createRectangle()
   imageBounds.name = "Source image"
 
-  // frame.appendChild(imageBackground)
   frame.appendChild(imageBounds)
 
   const paint = getFirstImagePaintFromNode(node)
@@ -85,19 +74,18 @@ export async function generateColorGuideFrame(node, data: UIColorData): Promise<
     colorLabel.fills = [{ type: 'SOLID', color: black }]
     colorLabel.fontSize = 10
     colorLabel.textAlignHorizontal = 'CENTER'
-    colorLabel.resize(55, (swatchSize / 2))
+    colorLabel.resize(55, labelHeight)
     colorLabel.fontName = hasSf ? sf : roboto
     colorLabel.name = 'label'
     colorLabel.characters = names[i]
     colorLabel.fontSize = 10
     colorLabel.x = leftMargin + (i * (swatchSize + swatchGap))
-    colorLabel.y = contentStartY + labelBottomMargin + 54
+    colorLabel.y = contentStartY + labelBottomMargin + swatchSize + labelHeight
     
     // SWATCHES
-    const swatch = figma.createEllipse()
-    swatch.resize(swatchSize, swatchSize)
     let color = palette[i]
-    let paletteSwatch = swatch.clone()
+    let paletteSwatch = figma.createEllipse()
+    paletteSwatch.resize(swatchSize, swatchSize)
     paletteSwatch.name = 'color'
     paletteSwatch.x = leftMargin + (i * (swatchSize + swatchGap))
     paletteSwatch.y = contentStartY + labelBottomMargin
@@ -108,11 +96,8 @@ export async function generateColorGuideFrame(node, data: UIColorData): Promise<
     group.name = names[i]
     group.x = leftMargin + (i * (swatchSize + swatchGap))
     group.y = contentStartY + labelBottomMargin
-    frame.appendChild(group)
-    // frame.appendChild(paletteSwatch)
-    // frame.appendChild(colorLabel)
 
-    
+    frame.appendChild(group)
   }
 
   return Promise.resolve(frame)

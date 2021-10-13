@@ -26,7 +26,7 @@ async function main(nodes) {
   if (!hasValidSelection(nodes)) return figma.closePlugin('Invalid selection')
 
   if (nodes.length > 1 && nodes.every(isFrametypeNode)) {
-    console.info({ 1: nodes })
+    // console.info({ 1: nodes })
     for (let frame of nodes) {
       await main([frame])
     }
@@ -35,7 +35,7 @@ async function main(nodes) {
   }
 
   if (nodes.length > 1 && nodes.every(nodeIsSourceImage)) {
-    console.info({ 2: nodes })
+    // console.info({ 2: nodes })
     for (let image of nodes) {
       await main([ image ])
     }
@@ -44,7 +44,7 @@ async function main(nodes) {
   }
   
   if (selectedSingleImage(nodes)) {
-    console.info({ 3: nodes })
+    // console.info({ 3: nodes })
 
     const node = nodes[0]
     const data = await getDataForUIFromNode(node)
@@ -63,7 +63,7 @@ async function main(nodes) {
   }
 
   if (selectedFrameContainsImageAndFillables(nodes)) {
-    console.info({ 4: nodes })
+    // console.info({ 4: nodes })
 
     // open the modal with the selected image
     const node = getSourceImageNodeFromNodes(nodes)
@@ -85,7 +85,7 @@ async function main(nodes) {
   }
 
   if (selectedImageAndFillables(nodes)) {
-    console.info({ 5: nodes })
+    // console.info({ 5: nodes })
 
     const node = getSourceImageNodeFromNodes(nodes)
     const data = await getDataForUIFromNode(node)
@@ -103,7 +103,7 @@ async function main(nodes) {
   }
 
   if (seletedFillablesWithoutImage(nodes)) {
-    console.info({ 6: nodes })
+    // console.info({ 6: nodes })
 
     const node = getSourceImageNodeFromParentsOfNodes(nodes)
     if (!node) return Promise.resolve('Couldn’t find an image to sample from, try a new selection!')
