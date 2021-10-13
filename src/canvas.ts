@@ -1,15 +1,14 @@
 import { getFirstImagePaintFromNode, UIColorData } from "./utils";
 
 export async function generateColorGuideFrame(node, data: UIColorData): Promise<SceneNode> {
-  const { dominantColor, palette, names } = data
+  const { palette, names } = data
 
-  const swatchSize = 44
-  const labelTopMargin = 24
+  const swatchSize = 50
   const labelHeight = 12
   const labelBottomMargin = 8 + labelHeight
-  const swatchGap = 12
-  const maxWidth = 300
-  const maxImagePreviewHeight = 300
+  const swatchGap = 8
+  const maxWidth = 372
+  const maxImagePreviewHeight = 372
   const leftMargin = 16
   const black = { r: 0, g: 0, b: 0 }
   const white = { r: 1, g: 1, b: 1 }
@@ -22,8 +21,8 @@ export async function generateColorGuideFrame(node, data: UIColorData): Promise<
   ? maxImagePreviewHeight
   : node.height + (imagePreviewInset * 2)
   
-  const contentStartY = imageBoundsHeight + labelTopMargin
-  const totalHeight = imageBoundsHeight + ((labelTopMargin + labelBottomMargin + swatchSize) * 3) + leftMargin
+  const contentStartY = imageBoundsHeight
+  const totalHeight = imageBoundsHeight + (swatchSize * 2) - 8 + leftMargin
 
   const sf = { family: 'SF Pro Text', style: 'Regular'}
   const roboto = { family: 'Roboto', style: 'Regular' }
@@ -33,8 +32,10 @@ export async function generateColorGuideFrame(node, data: UIColorData): Promise<
 
   const frame = figma.createFrame()
   frame.resize(maxWidth, totalHeight)
-  frame.x = node.x + node.width + 100
-  frame.y = node.y
+  // frame.x = node.x + node.width + 100
+  // frame.y = node.y
+  frame.x = 400
+  frame.y = 500
   frame.backgrounds = []
   frame.effects = []
   frame.name = "Palette"
@@ -48,21 +49,22 @@ export async function generateColorGuideFrame(node, data: UIColorData): Promise<
   background.fills = [{ color: white, type: 'SOLID' }]
   background.effects = [{ type: 'DROP_SHADOW', visible: true, blendMode: "NORMAL", radius: 12, offset: { x: 0, y: 2 }, color: { ...black, a: 0.16 }}]
 
-  const imageBackground = figma.createRectangle()
-  imageBackground.y = 0
-  imageBackground.topLeftRadius = paletteCornerRadius
-  imageBackground.topRightRadius = paletteCornerRadius
-  imageBackground.resize(maxWidth, imageBoundsHeight)
-  imageBackground.fills = [{ type: 'SOLID', color: dominantColor, opacity: 0.08 }]
-  imageBackground.effects = [{ type: 'INNER_SHADOW', visible: true, blendMode: "NORMAL", radius: 0, offset: { x: 0, y: -1 }, color: { ...black, a: 0.08 }}]
+  // const imageBackground = figma.createRectangle()
+  // imageBackground.y = 0
+  // imageBackground.topLeftRadius = paletteCornerRadius
+  // imageBackground.topRightRadius = paletteCornerRadius
+  // imageBackground.resize(maxWidth, imageBoundsHeight)
+  // imageBackground.fills = [{ type: 'SOLID', color: dominantColor, opacity: 0.08 }]
+  // imageBackground.effects = [{ type: 'INNER_SHADOW', visible: true, blendMode: "NORMAL", radius: 0, offset: { x: 0, y: -1 }, color: { ...black, a: 0.08 }}]
 
   const imageBounds = figma.createRectangle()
   imageBounds.name = "Source image"
 
-  frame.appendChild(imageBackground)
+  // frame.appendChild(imageBackground)
   frame.appendChild(imageBounds)
 
   const paint = getFirstImagePaintFromNode(node)
+  
   imageBounds.fills = [ paint]
   imageBounds.cornerRadius = node.cornerRadius
   imageBounds.resize(node.width >= maxWidth ? maxWidth : node.width, node.height <= maxImagePreviewHeight ? node.height : maxImagePreviewHeight)
@@ -74,50 +76,42 @@ export async function generateColorGuideFrame(node, data: UIColorData): Promise<
   imageBounds.x = node.width >= maxWidth
     ? 0
     : (maxWidth - node.width) / 2
-  
 
-  const label = figma.createText()
-  label.name = "Label"
-  label.fontName = hasSf ? sf : roboto
-  label.fills = [{ type: 'SOLID', color: black }]
-  label.fontSize = 10
-  
-  const dominantLabel = label
-  dominantLabel.characters = "MOST VIBRANT COLOR"
-  dominantLabel.y = contentStartY
-  dominantLabel.x = leftMargin
-
-  const paletteLabel = dominantLabel.clone()
-  paletteLabel.characters = "PALETTE"
-  paletteLabel.y = dominantLabel.y + labelBottomMargin + swatchSize + labelTopMargin
-
-  frame.appendChild(dominantLabel)
-  frame.appendChild(paletteLabel)
-
-  const swatch = figma.createRectangle()
-  swatch.name = "Swatch"
-  swatch.cornerRadius = 2
-  swatch.resize(swatchSize, swatchSize)
-  swatch.x = leftMargin
-  swatch.y = dominantLabel.y + labelBottomMargin
-  const dominantSwatch = swatch
-  dominantSwatch.fills = [{ type: 'SOLID', color: dominantColor }]
-  frame.appendChild(dominantSwatch)
 
   for(let i = 0; i < palette.length; i++) {
-    const colorLabel = dominantLabel.clone()
+    const swatches = []
+    // LABELS
+    const colorLabel = figma.createText()
+    colorLabel.fills = [{ type: 'SOLID', color: black }]
+    colorLabel.fontSize = 10
+    colorLabel.textAlignHorizontal = 'CENTER'
+    colorLabel.resize(55, (swatchSize / 2))
+    colorLabel.fontName = hasSf ? sf : roboto
+    colorLabel.name = 'label'
     colorLabel.characters = names[i]
-    colorLabel.fontSize = 8
+    colorLabel.fontSize = 10
     colorLabel.x = leftMargin + (i * (swatchSize + swatchGap))
-    colorLabel.y = paletteLabel.y + labelBottomMargin + 50
+    colorLabel.y = contentStartY + labelBottomMargin + 54
     
+    // SWATCHES
+    const swatch = figma.createEllipse()
+    swatch.resize(swatchSize, swatchSize)
     let color = palette[i]
-    let paletteSwatch = dominantSwatch.clone()
+    let paletteSwatch = swatch.clone()
+    paletteSwatch.name = 'color'
     paletteSwatch.x = leftMargin + (i * (swatchSize + swatchGap))
-    paletteSwatch.y = paletteLabel.y + labelBottomMargin
+    paletteSwatch.y = contentStartY + labelBottomMargin
     paletteSwatch.fills = [{ type: 'SOLID', color }]
-    frame.appendChild(paletteSwatch)
-    frame.appendChild(colorLabel)
+
+    swatches.push(colorLabel, paletteSwatch)
+    let group = figma.group(swatches, frame)
+    group.name = names[i]
+    group.x = leftMargin + (i * (swatchSize + swatchGap))
+    group.y = contentStartY + labelBottomMargin
+    frame.appendChild(group)
+    // frame.appendChild(paletteSwatch)
+    // frame.appendChild(colorLabel)
+
     
   }
 

@@ -18,21 +18,6 @@ function getImageColors(bytes): Promise<ImageProps> {
   img.setAttribute('src', imageUrl)
   return new Promise(res => {
     img.onload = function() {
-      // const thief = new Colorthief()
-      
-      // const rawDominantColor = thief.getColor(img, 1)
-      // const dominantColor = { r: rawDominantColor[0] / 255, g: rawDominantColor[1] / 255, b: rawDominantColor[2] / 255 }
-      
-      // const rawPalette = thief.getPalette(img, 5, 1)
-      // const palette = rawPalette.map(arr => ({ r: arr[0] / 255, g: arr[1] / 255, b: arr[2] / 255 }))
-
-      // console.log(palette);
-      
-      
-      // res({ img, dominantColor, palette })
-
-
-      // VIBRANT JS
       Vibrant.from(img)
         .getPalette()
         .then(colorPalette => {
@@ -41,7 +26,7 @@ function getImageColors(bytes): Promise<ImageProps> {
           let dominantColor = { r: colorPalette.Vibrant.rgb[0] / 255, g: colorPalette.Vibrant.rgb[1] / 255, b: colorPalette.Vibrant.rgb[2] / 255 }
 
             for (var swatch in colorPalette) {
-              if (colorPalette.hasOwnProperty(swatch) && colorPalette[swatch] && swatch != "Vibrant") {
+              if (colorPalette.hasOwnProperty(swatch) && colorPalette[swatch]) {
                 names.push(swatch)
                 let color = colorPalette[swatch].getRgb()
                 palette.push({ r: color[0] / 255, g: color[1] / 255, b: color[2] / 255 })

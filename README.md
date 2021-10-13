@@ -8,5 +8,5 @@ Generate a vibrant palette from an image.
 
 ## Core
 
-This plugin is based on [Figma Dominant Color Toolkit](https://github.com/brianlovin/figma-dominant-color-toolkit)
+This plugin is based on [Dominant Color Toolkit 🎨](https://www.figma.com/community/plugin/744725347356614754/Dominant-Color-Toolkit-%F0%9F%8E%A8)
 Only it use [node-vibrant](https://github.com/Vibrant-Colors/node-vibrant) library.
