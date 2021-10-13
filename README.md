@@ -1,4 +1,4 @@
-  <!-- ![Figma Vibrant Colors](./assets/cover.png) -->
+  ![Figma Vibrant Colors](./assets/cover.png)
 
 # Figma Vibrant Colors
 
