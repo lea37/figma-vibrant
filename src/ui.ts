@@ -1,5 +1,4 @@
 import Colorthief from '../node_modules/colorthief/dist/color-thief.umd.js'
-// import * as Vibrant from '../node_modules/node-vibrant/dist/vibrant.js'
 import * as Vibrant from 'node-vibrant'
 import { getTextColorsFromRGB } from './colors'
 
