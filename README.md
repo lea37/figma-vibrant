@@ -6,7 +6,7 @@ Extract prominent colors from an image.
 <!-- [Install on Figma](https://www.figma.com/c/plugin/744725347356614754/Dominant-Color-Toolkit-%F0%9F%8E%A8) -->
 
 ## Core
-This plugin is based on [Dominant Color Toolkit 🎨](https://www.figma.com/community/plugin/744725347356614754/Dominant-Color-Toolkit-%F0%9F%8E%A8) only it's uses [node-vibrant](https://github.com/Vibrant-Colors/node-vibrant) library to extract vibrant palette (vibrant, lightVibrant, darkVibrant, muted, lightMuted, darkMuted)
+This plugin is based on [Dominant Color Toolkit 🎨](https://www.figma.com/community/plugin/744725347356614754/Dominant-Color-Toolkit-%F0%9F%8E%A8). It uses [node-vibrant](https://github.com/Vibrant-Colors/node-vibrant) library to extract vibrant palette (vibrant, lightVibrant, darkVibrant, muted, lightMuted, darkMuted)
 
 ## Install
 1. `git clone https://github.com/lea37/figma-vibrant.git`
