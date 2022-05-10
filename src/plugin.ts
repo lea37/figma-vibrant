@@ -53,6 +53,7 @@ async function main(nodes) {
     return new Promise<void>(res => {
       figma.ui.onmessage = async data => {
         await figma.loadFontAsync({ family: "Roboto", style: "Regular" })
+        await figma.loadFontAsync({ family: "Inter", style: "Regular" })
         await generateColorGuideFrame(node, data).then(node => {
           figma.currentPage.selection = []
           res()
@@ -79,6 +80,7 @@ async function main(nodes) {
     return new Promise<void>(res => {
       figma.ui.onmessage = async data => {
         await figma.loadFontAsync({ family: "Roboto", style: "Regular" })
+        await figma.loadFontAsync({ family: "Inter", style: "Regular" })
         await applyTransformationsToNodes(transformable, data).then(() => res())
       }
 
@@ -100,6 +102,7 @@ async function main(nodes) {
     return new Promise<void>(res => {
       figma.ui.onmessage = async data => {
         await figma.loadFontAsync({ family: "Roboto", style: "Regular" })
+        await figma.loadFontAsync({ family: "Inter", style: "Regular" })
         await applyTransformationsToNodes(transformable, data).then(() => res())
       }
     })
@@ -116,6 +119,7 @@ async function main(nodes) {
     return new Promise<void>(res => {
       figma.ui.onmessage = async data => {
         await figma.loadFontAsync({ family: "Roboto", style: "Regular" })
+        await figma.loadFontAsync({ family: "Inter", style: "Regular" })
         await applyTransformationsToNodes(nodes, data).then(() => res())
       }
 
